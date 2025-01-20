@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/ariel.amor/c/leetcode/reverse_string/reverse_string'
+relocations:     []
+...
