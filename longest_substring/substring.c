@@ -141,22 +141,3 @@ int main ()
 
     printf("%d", longest_substring);
 }
-
-/* 
-
-for(int j = i + window_size - 1; j >= i; j --)
-            {
-                char evaluating_char = s[j];
-                for(int h = 1; h < window_size; h ++) 
-                {
-
-                    if (evaluating_char == s[j - h])
-                    {
-                        goto next;
-                    }
-                }
-
-                longest_substring_lenght ++;
-                goto next_window_size;
-            }
-*/
