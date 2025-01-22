@@ -32,24 +32,23 @@ HashmapEntry *create_hashmap(int max_nums)
     return hash_map;
 }
 
-void insert(HashmapEntry *hash_map, int key, int value)
-{
+void insert(HashmapEntry *hash_map, char key, int value) {
     int hashed_key = hash(key);
     HashmapEntry *bucket = &hash_map[hashed_key];
 
-    if (bucket->key == INT32_MAX && bucket->next == NULL) 
-    {
-        bucket->key = key;
-        bucket->value = value;
+    while (bucket != NULL) {
+        if (bucket->key == key) {
+            bucket->value = value;
+            return;
+        }
+        bucket = bucket->next;
     }
-    else
-    {
-        HashmapEntry *new_entry = (HashmapEntry *)malloc(sizeof(HashmapEntry));
-        new_entry->key = key;
-        new_entry->value = value;
-        new_entry->next = bucket->next;
-        bucket->next = new_entry;
-    }
+
+    HashmapEntry *new_entry = (HashmapEntry *)malloc(sizeof(HashmapEntry));
+    new_entry->key = key;
+    new_entry->value = value;
+    new_entry->next = hash_map[hashed_key].next;
+    hash_map[hashed_key].next = new_entry;
 }
 
 int search(HashmapEntry *hash_map, int key)
@@ -83,26 +82,6 @@ void free_hashmap(HashmapEntry *hash_map) {
     free(hash_map);
 }
 
-int search_closest(HashmapEntry *hash_map, char key, int target) {
-    int hashed_key = hash(key);
-    HashmapEntry *entry = &hash_map[hashed_key];
-    int closest_value = INT32_MAX;
-    int min_diff = INT32_MAX;
-
-    while (entry != NULL) {
-        if (entry->key == key) {
-            int diff = abs(entry->value - target);
-            if (diff < min_diff) {
-                min_diff = diff;
-                closest_value = entry->value;
-            }
-        }
-        entry = entry->next;
-    }
-
-    return (closest_value == INT32_MAX) ? -1 : closest_value;
-}
-
 int lengthOfLongestSubstring(char* s) {
     int s_length = strlen(s);
     int window_start = 0;
@@ -114,7 +93,7 @@ int lengthOfLongestSubstring(char* s) {
 
     for (int window_end = 0; window_end < s_length; window_end++) {
         char current_char = s[window_end];
-        int closest_index = search_closest(hashmap, current_char, window_end);
+        int closest_index = search(hashmap, current_char);
 
         if (closest_index != -1 && closest_index >= window_start) {
             window_start = closest_index + 1;
