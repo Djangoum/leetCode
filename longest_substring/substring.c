@@ -4,16 +4,15 @@
 #include <stdbool.h>
 
 int lengthOfLongestSubstring(char* s) {
-    int s_length = strlen(s);
     int window_start = 0;
-    int longest_substring_length = 1;
+    int longest_substring_length = 0;
     int map[256];
 
     memset(map, -1, sizeof(map));
 
-    if (s_length == 0) return 0;
+    for (int window_end = 0; window_end < INT32_MAX; window_end++) {
+        if (s[window_end] == '\0') break;
 
-    for (int window_end = 0; window_end < s_length; window_end++) {
         char current_char = s[window_end];
         int closest_index = map[s[window_end]];
 
