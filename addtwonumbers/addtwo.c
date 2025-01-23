@@ -58,48 +58,27 @@ void printLinkedList(struct ListNode* head) {
 }
 
 struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
-    struct ListNode *l1_r = l1;
-    struct ListNode *l2_r = l2;
+    struct ListNode dummy;
+    struct ListNode* current = &dummy;
+    int carry = 0;
 
-    struct ListNode *head = NULL;
-    struct ListNode *end = NULL;
-
-    int trailing = 0;
-
-    while(l1_r != NULL || l2_r != NULL || trailing != 0)
-    {
-        int val1 = (l1_r != NULL) ? l1_r->val : 0;
-        int val2 = (l2_r != NULL) ? l2_r->val : 0;
-
-        int sum = val1 + val2 + trailing;
-
-        if (sum >= 10)
-        {
-            trailing = sum / 10;
-            sum = sum % 10;
+    while (l1 != NULL || l2 != NULL || carry != 0) {
+        int sum = carry;
+        if (l1 != NULL) {
+            sum += l1->val;
+            l1 = l1->next;
         }
-        else
-        {
-            trailing = 0;
+        if (l2 != NULL) {
+            sum += l2->val;
+            l2 = l2->next;
         }
 
-        if (head == NULL)
-        {
-            head = createNode(sum);
-            end = head;
-        }
-        else
-        {
-            struct ListNode *new_node = createNode(sum);
-            end->next = new_node;
-            end = new_node;
-        }
-
-        if (l1_r != NULL) l1_r = l1_r->next;
-        if (l2_r != NULL) l2_r = l2_r->next;
+        carry = sum / 10;
+        current->next = createNode(sum % 10);
+        current = current->next;
     }
 
-    return head;
+    return dummy.next;
 }
 
 int main ()
