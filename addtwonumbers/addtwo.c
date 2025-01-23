@@ -7,23 +7,6 @@ struct ListNode {
     struct ListNode *next;
 };
 
-struct ListNode *reverse_list(struct ListNode *head)
-{
-    struct ListNode *prev = NULL;
-    struct ListNode *current = head;
-    struct ListNode *next;
-
-    while(current)
-    {
-        next = current->next;
-        current->next = prev;
-        prev = current;
-        current = next;
-    }
-
-    return prev;
-}
-
 struct ListNode* createNode(int val) {
     struct ListNode* newNode = (struct ListNode*)malloc(sizeof(struct ListNode));
     newNode->val = val;
